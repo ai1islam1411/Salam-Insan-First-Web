@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salam Insan Connect With The Future سلام إنسان تواصل مع المستقبل</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <style>
+        :root {
+            --primary: #6a0dad;
+            --primary-dark: #4b0082;
+            --secondary: #000000;
+            --accent: #9c27b0;
+            --text: #333333;
+            --light: #f5f5f5;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* الشريط العلوي */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            margin-left: 10px;
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-right: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* قسم البطل */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            background: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb') no-repeat center center/cover;
+            position: relative;
+            margin-top: 70px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(106, 13, 173, 0.9), rgba(0, 0, 0, 0.7));
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: var(--white);
+            max-width: 600px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--white);
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* قسم الميزات */
+        .features {
+            padding: 5rem 10%;
+            background-color: var(--white);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            font-size: 2.5rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        /* قسم التسجيل */
+        .register {
+            padding: 5rem 10%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+        }
+        
+        .register-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .register-form {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: right;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .tab-btn {
+            padding: 0.8rem 2rem;
+            background-color: transparent;
+            border: none;
+            color: var(--text);
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* قسم معلومات العملة */
+        .token-section {
+            padding: 5rem 10%;
+            background-color: var(--white);
+        }
+        
+        .token-container {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .token-info {
+            flex: 1;
+        }
+        
+        .token-chart {
+            flex: 1;
+            height: 400px;
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        
+        .token-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-card {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        /* قسم التعدين */
+        .mining-section {
+            padding: 5rem 10%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+        }
+        
+        .mining-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .mining-box {
+            background-color: var(--white);
+            color: var(--text);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mining-status {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: var(--light);
+            border-radius: 10px;
+        }
+        
+        .mining-progress {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .mining-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+        }
+        
+        /* قسم المحفظة */
+        .wallet-section {
+            padding: 5rem 10%;
+            background-color: var(--light);
+        }
+        
+        .wallet-info {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .wallet-address {
+            font-family: monospace;
+            background-color: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            word-break: break-all;
+        }
+        
+        .insan-balance {
+            font-size: 2rem;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+        
+        /* صفحة لوحة التحكم */
+        .dashboard {
+            padding: 6rem 10% 3rem;
+            min-height: 100vh;
+            background-color: var(--light);
+            display: none;
+        }
+        
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+        
+        .sidebar {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-menu a {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(106, 13, 173, 0.1);
+            color: var(--primary);
+        }
+        
+        .sidebar-menu i {
+            width: 25px;
+            text-align: center;
+            margin-left: 5px;
+        }
+        
+        .main-content {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .notifications {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-item {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-item p {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        
+        .transactions-table th, .transactions-table td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .transactions-table th {
+            background-color: var(--light);
+            color: var(--primary);
+        }
+        
+        .status-success {
+            color: #28a745;
+        }
+        
+        .status-pending {
+            color: #ffc107;
+        }
+        
+        /* صفحة التعدين المتقدم */
+        .mining-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .plan-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .plan-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .plan-price {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: var(--accent);
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .plan-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        /* صفحة السوق */
+        .market-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 2rem;
+        }
+        
+        .market-tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .market-tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .market-item {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .market-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .market-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .market-price {
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .market-change.positive {
+            color: #28a745;
+        }
+        
+        .market-change.negative {
+            color: #dc3545;
+        }
+        
+        /* صفحة الملف الشخصي */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 2rem;
+            border: 3px solid var(--primary);
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .profile-stat {
+            text-align: center;
+        }
+        
+        .profile-stat h4 {
+            color: var(--primary);
+        }
+        
+        .edit-profile-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        /* نظام الإحالة */
+        .referral-section {
+            margin-top: 2rem;
+        }
+        
+        .referral-box {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+        
+        .referral-link {
+            display: flex;
+            margin: 1rem 0;
+        }
+        
+        .referral-link input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .referral-link button {
+            padding: 0 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .referral-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        /* نظام الدعم الفني */
+        .support-section {
+            margin-top: 2rem;
+        }
+        
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .support-options div {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .support-options div:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .support-options i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        /* النوافذ المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+        
+        .notification-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .notification-item {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .notification-item.unread {
+            background-color: rgba(106, 13, 173, 0.05);
+        }
+        
+        .notification-icon {
+            margin-left: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-content small {
+            color: #777;
+            display: block;
+            margin-top: 3px;
+        }
+        
+        /* التذييل */
+        footer {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 3rem 10%;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-icons a {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* التكيف مع الأجهزة المحمولة */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .hero {
+                padding: 0 5%;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .token-container {
+                flex-direction: column;
+            }
+            
+            .token-chart {
+                width: 100%;
+                margin-top: 2rem;
+            }
+            
+            .features, .register, .token-section, .mining-section, .wallet-section {
+                padding: 3rem 5%;
+            }
+            
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                margin-bottom: 2rem;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-avatar {
+                margin-left: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .market-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 5px;
+            }
+            
+            .market-tab {
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الشريط العلوي -->
+    <header>
+        <div class="logo">
+            <span>سلام إنسان</span>
+            <i class="fas fa-dove"></i>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#features">المميزات</a></li>
+                <li><a href="#token">عملة إنسان</a></li>
+                <li><a href="#mining">التعدين</a></li>
+                <li><a href="#register">التسجيل</a></li>
+                <li><a href="#wallet">المحفظة</a></li>
+                <li><a href="#" id="dashboard-link">لوحة التحكم</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- قسم البطل -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>تواصل مع المستقبل</h1>
+            <p>سلام إنسان منصة اجتماعية آمنة تعتمد على تقنية البلوكشين لتقديم تجربة فريدة ومكافآت حقيقية</p>
+            <div class="cta-buttons">
+                <a href="#register" class="btn btn-primary">سجل الآن</a>
+                <a href="#mining" class="btn btn-outline">ابدأ التعدين</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الميزات -->
+    <section class="features" id="features">
+        <h2 class="section-title">مميزات منصتنا</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>أمان عالي</h3>
+                <p>نبني نظام حماية متقدم باستخدام تقنية البلوكشين لتأمين بياناتك ومعاملاتك</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3>ربح العملات</h3>
+                <p>احصل على عملة INSAN لكل نشاط تقوم به وقم بتحويلها إلى أموال بالعملات المختلفة</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>مجتمع آمن</h3>
+                <p>تواصل مع أشخاص يشاركونك نفس الاهتمامات في بيئة خالية من التسلط</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم عملة إنسان -->
+    <section class="token-section" id="token">
+        <h2 class="section-title">عملة <span>إنسان</span> INSAN</h2>
+        <div class="token-container">
+            <div class="token-info">
+                <p>عملة إنسان (INSAN) هي العملة الرقمية الرسمية لمنصة سلام إنسان، تمنحك مزايا حصرية داخل المنصة وإمكانية تبادلها مع عملات أخرى. إجمالي المعروض 10 مليار عملة بسعر حال ي 2.71 دولار أمريكي لكل عملة.</p>
+                
+                <div class="token-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">10B</div>
+                        <div class="stat-label">إجمالي المعروض</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">$2.71</div>
+                        <div class="stat-label">القيمة الحالية</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">2.71 BUSD</div>
+                        <div class="stat-label">السعر البديل</div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 2rem;">يمكنك كسب عملة إنسان من خلال المشاركة في المنصة أو من خلال نظام التعدين الخاص بنا الذي يوفر مكافآت يومية للمستخدمين النشطين.</p>
+            </div>
+            <div class="token-chart">
+                <canvas id="tokenChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التعدين -->
+    <section class="mining-section" id="mining">
+        <div class="mining-container">
+            <h2 class="section-title">نظام تعدين إنسان</h2>
+            <div class="mining-box">
+                <h3>استخرج عملة إنسان مجانًا</h3>
+                <p>ابدأ في تعدين عملة إنسان الآن واحصل على مكافآت تصل إلى 10 INSAN لكل عملية تعدين</p>
+                
+                <div class="mining-status">
+                    <h4>حالة التعدين</h4>
+                    <div class="mining-progress">
+                        <div class="progress-bar" id="mining-progress"></div>
+                    </div>
+                    <p id="mining-speed">سرعة التعدين: 0 H/s</p>
+                </div>
+                
+                <button id="start-mining" class="btn btn-primary">بدء التعدين</button>
+                <button id="stop-mining" class="btn btn-outline" style="display: none;">إيقاف التعدين</button>
+                
+                <div class="mining-stats">
+                    <div>
+                        <h4>العملات المعدنة</h4>
+                        <p id="mined-coins">0 INSAN</p>
+                    </div>
+                    <div>
+                        <h4>القيمة المقدرة</h4>
+                        <p id="mined-value">0$</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التسجيل -->
+    <section class="register" id="register">
+        <div class="register-container">
+            <h2 class="section-title">انضم إلينا الآن</h2>
+            <div class="register-form">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="email-tab">بالبريد الإلكتروني</button>
+                    <button class="tab-btn" data-tab="phone-tab">برقم الجوال</button>
+                </div>
+                
+                <div class="tab-content active" id="email-tab">
+                    <form id="email-form">
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">كلمة المرور</label>
+                            <input type="password" id="password" class="form-control" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">تسجيل</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="phone-tab">
+                    <form id="phone-form">
+                        <div class="form-group">
+                            <label for="phone">رقم الجوال</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="otp">رمز التحقق</label>
+                            <input type="text" id="otp" class="form-control" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="send-otp" class="btn btn-outline" style="color: var(--text); border-color: var(--text);">إرسال الرمز</button>
+                            <button type="submit" class="btn btn-primary">تسجيل</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المحفظة -->
+    <section class="wallet-section" id="wallet">
+        <h2 class="section-title">محفظتك الرقمية</h2>
+        <div class="wallet-info">
+            <i class="fas fa-wallet feature-icon"></i>
+            <p>قم بربط محفظتك الرقمية لبدء كسب واستلام عملات INSAN</p>
+            <button id="connect-wallet" class="btn btn-primary">ربط محفظة MetaMask</button>
+            <div id="wallet-details" style="display: none;">
+                <h3>عنوان محفظتك:</h3>
+                <div class="wallet-address" id="wallet-address"></div>
+                <h3>رصيدك من INSAN:</h3>
+                <div class="insan-balance" id="insan-balance">0 INSAN</div>
+                <p>قيمة الرصيد: <span id="balance-value">0$</span></p>
+                <button id="transfer-coins" class="btn btn-outline" style="margin-top: 1rem;">تحويل العملات المعدنة</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- لوحة التحكم -->
+    <section class="dashboard" id="dashboard">
+        <div class="dashboard-container">
+            <!-- القائمة الجانبية -->
+            <div class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#dashboard" class="active"><i class="fas fa-home"></i>الرئيسية</a></li>
+                    <li><a href="#profile"><i class="fas fa-user"></i>الملف الشخصي</a></li>
+                    <li><a href="#advanced-mining"><i class="fas fa-microchip"></i>التعدين المتقدم</a></li>
+                    <li><a href="#market"><i class="fas fa-chart-line"></i>سوق التداول</a></li>
+                    <li><a href="#transactions"><i class="fas fa-exchange-alt"></i>المعاملات</a></li>
+                    <li><a href="#settings"><i class="fas fa-cog"></i>الإعدادات</a></li>
+                    <li><a href="#logout"><i class="fas fa-sign-out-alt"></i>تسجيل الخروج</a></li>
+                </ul>
+            </div>
+
+            <!-- المحتوى الرئيسي -->
+            <div class="main-content">
+                <div class="dashboard-header">
+                    <h2>مرحباً بك في لوحة التحكم</h2>
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                </div>
+
+                <!-- إحصائيات سريعة -->
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>رصيد INSAN</h3>
+                        <p id="dashboard-balance">0.00</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>القيمة بالدولار</h3>
+                        <p id="dashboard-value">$0.00</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>المعدن اليوم</h3>
+                        <p id="daily-mined">0.00</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>الإحالات</h3>
+                        <p id="referral-count">0</p>
+                    </div>
+                </div>
+
+                <!-- مخطط النشاط -->
+                <div style="margin: 2rem 0;">
+                    <h3 style="margin-bottom: 1rem;">نشاطك الشهري</h3>
+                    <canvas id="activityChart" height="150"></canvas>
+                </div>
+
+                <!-- أحدث المعاملات -->
+                <h3 style="margin: 2rem 0 1rem;">أحدث المعاملات</h3>
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>النوع</th>
+                            <th>المبلغ</th>
+                            <th>الحالة</th>
+                            <th>التاريخ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#TX7821</td>
+                            <td>تعدين</td>
+                            <td>+0.0054 INSAN</td>
+                            <td class="status-success">مكتمل</td>
+                            <td>2023-06-15</td>
+                        </tr>
+                        <tr>
+                            <td>#TX7820</td>
+                            <td>تحويل</td>
+                            <td>-1.2000 INSAN</td>
+                            <td class="status-success">مكتمل</td>
+                            <td>2023-06-14</td>
+                        </tr>
+                        <tr>
+                            <td>#TX7819</td>
+                            <td>إحالة</td>
+                            <td>+0.5000 INSAN</td>
+                            <td class="status-pending">قيد الانتظار</td>
+                            <td>2023-06-13</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الملف الشخصي -->
+    <section class="dashboard" id="profile">
+        <div class="dashboard-container">
+            <div class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#dashboard"><i class="fas fa-home"></i>الرئيسية</a></li>
+                    <li><a href="#profile" class="active"><i class="fas fa-user"></i>الملف الشخصي</a></li>
+                    <li><a href="#advanced-mining"><i class="fas fa-microchip"></i>التعدين المتقدم</a></li>
+                    <li><a href="#market"><i class="fas fa-chart-line"></i>سوق التداول</a></li>
+                    <li><a href="#transactions"><i class="fas fa-exchange-alt"></i>المعاملات</a></li>
+                    <li><a href="#settings"><i class="fas fa-cog"></i>الإعدادات</a></li>
+                    <li><a href="#logout"><i class="fas fa-sign-out-alt"></i>تسجيل الخروج</a></li>
+                </ul>
+            </div>
+
+            <div class="main-content">
+                <div class="dashboard-header">
+                    <h2>الملف الشخصي</h2>
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                </div>
+
+                <div class="profile-header">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="صورة المستخدم" class="profile-avatar">
+                    <div>
+                        <h2>أحمد محمد</h2>
+                        <p>عضو منذ: 15 يونيو 2022</p>
+                        <button class="edit-profile-btn"><i class="fas fa-edit" style="margin-left: 5px;"></i>تعديل الملف</button>
+                    </div>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <h4>1,245</h4>
+                        <p>نقاط النشاط</p>
+                    </div>
+                    <div class="profile-stat">
+                        <h4>12</h4>
+                        <p>الإحالات</p>
+                    </div>
+                    <div class="profile-stat">
+                        <h4>المستوى 3</h4>
+                        <p>رتبة العضو</p>
+                    </div>
+                </div>
+
+                <!-- معلومات المستخدم -->
+                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">معلومات المستخدم</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <p><strong>البريد الإلكتروني:</strong> user@example.com</p>
+                            <p><strong>رقم الجوال:</strong> +966501234567</p>
+                        </div>
+                        <div>
+                            <p><strong>البلد:</strong> المملكة العربية السعودية</p>
+                            <p><strong>تاريخ الميلاد:</strong> 01/01/1990</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نظام الإحالة -->
+                <div class="referral-section">
+                    <h3 style="margin: 2rem 0 1rem;">نظام الإحالة</h3>
+                    <p>احصل على 1% من عملات INSAN لكل صديق تدعوه إلى المنصة</p>
+                    
+                    <div class="referral-box">
+                        <h4>رابط الإحالة الخاص بك:</h4>
+                        <div class="referral-link">
+                            <input type="text" id="referral-link" value="https://salaminsan.com/ref/ahmed123" readonly>
+                            <button onclick="copyReferralLink()"><i class="fas fa-copy"></i></button>
+                        </div>
+                        
+                        <div class="referral-stats">
+                            <div style="background-color: var(--white); padding: 1rem; border-radius: 8px;">
+                                <h4>12</h4>
+                                <p>إجمالي الإحالات</p>
+                            </div>
+                            <div style="background-color: var(--white); padding: 1rem; border-radius: 8px;">
+                                <h4>5.4 INSAN</h4>
+                                <p>أرباح الإحالة</p>
+                            </div>
+                            <div style="background-color: var(--white); padding: 1rem; border-radius: 8px;">
+                                <h4>3</h4>
+                                <p>إحالات نشطة</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التعدين المتقدم -->
+    <section class="dashboard" id="advanced-mining">
+        <div class="dashboard-container">
+            <div class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#dashboard"><i class="fas fa-home"></i>الرئيسية</a></li>
+                    <li><a href="#profile"><i class="fas fa-user"></i>الملف الشخصي</a></li>
+                    <li><a href="#advanced-mining" class="active"><i class="fas fa-microchip"></i>التعدين المتقدم</a></li>
+                    <li><a href="#market"><i class="fas fa-chart-line"></i>سوق التداول</a></li>
+                    <li><a href="#transactions"><i class="fas fa-exchange-alt"></i>المعاملات</a></li>
+                    <li><a href="#settings"><i class="fas fa-cog"></i>الإعدادات</a></li>
+                    <li><a href="#logout"><i class="fas fa-sign-out-alt"></i>تسجيل الخروج</a></li>
+                </ul>
+            </div>
+
+            <div class="main-content">
+                <div class="dashboard-header">
+                    <h2>التعدين المتقدم</h2>
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                </div>
+
+                <div style="background-color: var(--light); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">حالة التعدين الحالية</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <p><strong>سرعة التعدين:</strong> 245 H/s</p>
+                            <p><strong>العملات المعدنة اليوم:</strong> 0.0042 INSAN</p>
+                        </div>
+                        <div>
+                            <p><strong>إجمالي المعدن:</strong> 12.45 INSAN</p>
+                            <p><strong>القيمة المقدرة:</strong> $33.62</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-primary" style="margin-right: 1rem;">بدء التعدين</button>
+                        <button class="btn btn-outline" style="color: var(--text); border-color: var(--text);">سحب الأرباح</button>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 1rem;">ترقيات قوة التعدين</h3>
+                <p style="margin-bottom: 1.5rem;">قم بترقية قوة التعدين الخاصة بك لزيادة أرباحك اليومية</p>
+                
+                <div class="mining-plans">
+                    <div class="plan-card">
+                        <h3>الحزمة الأساسية</h3>
+                        <div class="plan-price">50 INSAN</div>
+                        <ul class="plan-features">
+                            <li>سرعة تعدين 500 H/s</li>
+                            <li>دخل يومي حتى 0.01 INSAN</li>
+                            <li>دعم فني أساسي</li>
+                            <li>عقد لمدة 30 يوم</li>
+                        </ul>
+                        <button class="btn btn-primary">شراء الآن</button>
+                    </div>
+                    
+                    <div class="plan-card" style="border-color: var(--primary);">
+                        <div style="position: absolute; top: -10px; right: 20px; background-color: var(--primary); color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">الأكثر شيوعاً</div>
+                        <h3>الحزمة المتوسطة</h3>
+                        <div class="plan-price">150 INSAN</div>
+                        <ul class="plan-features">
+                            <li>سرعة تعدين 1,500 H/s</li>
+                            <li>دخل يومي حتى 0.03 INSAN</li>
+                            <li>دعم فني مميز</li>
+                            <li>عقد لمدة 90 يوم</li>
+                            <li>مكافأة 10% إضافية</li>
+                        </ul>
+                        <button class="btn btn-primary">شراء الآن</button>
+                    </div>
+                    
+                    <div class="plan-card">
+                        <h3>الحزمة المتقدمة</h3>
+                        <div class="plan-price">500 INSAN</div>
+                        <ul class="plan-features">
+                            <li>سرعة تعدين 5,000 H/s</li>
+                            <li>دخل يومي حتى 0.1 INSAN</li>
+                            <li>دعم فني فوري</li>
+                            <li>عقد لمدة 180 يوم</li>
+                            <li>مكافأة 20% إضافية</li>
+                            <li>وصول مبكر للميزات الجديدة</li>
+                        </ul>
+                        <button class="btn btn-primary">شراء الآن</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم سوق التداول -->
+    <section class="dashboard" id="market">
+        <div class="dashboard-container">
+            <div class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#dashboard"><i class="fas fa-home"></i>الرئيسية</a></li>
+                    <li><a href="#profile"><i class="fas fa-user"></i>الملف الشخصي</a></li>
+                    <li><a href="#advanced-mining"><i class="fas fa-microchip"></i>التعدين المتقدم</a></li>
+                    <li><a href="#market" class="active"><i class="fas fa-chart-line"></i>سوق التداول</a></li>
+                    <li><a href="#transactions"><i class="fas fa-exchange-alt"></i>المعاملات</a></li>
+                    <li><a href="#settings"><i class="fas fa-cog"></i>الإعدادات</a></li>
+                    <li><a href="#logout"><i class="fas fa-sign-out-alt"></i>تسجيل الخروج</a></li>
+                </ul>
+            </div>
+
+            <div class="main-content">
+                <div class="dashboard-header">
+                    <h2>سوق تداول INSAN</h2>
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                </div>
+
+                <div class="market-tabs">
+                    <div class="market-tab active">INSAN/USDT</div>
+                    <div class="market-tab">INSAN/BTC</div>
+                    <div class="market-tab">INSAN/ETH</div>
+                    <div class="market-tab">INSAN/BUSD</div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                    <div>
+                        <div style="height: 400px; background-color: var(--light); border-radius: 10px; padding: 1rem;">
+                            <canvas id="marketChart"></canvas>
+                        </div>
+                        
+                        <div style="margin-top: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">أمر تداول جديد</h3>
+                            <div style="background-color: var(--light); padding: 1.5rem; border-radius: 10px;">
+                                <div style="display: flex; margin-bottom: 1rem;">
+                                    <button class="btn btn-primary" style="flex: 1; border-radius: 5px 0 0 5px;">شراء</button>
+                                    <button class="btn btn-outline" style="flex: 1; border-radius: 0 5px 5px 0; color: var(--text); border-color: var(--text);">بيع</button>
+                                </div>
+                                
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: block; margin-bottom: 0.5rem;">السعر (USDT)</label>
+                                    <input type="text" class="form-control" value="2.71" readonly>
+                                </div>
+                                
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: block; margin-bottom: 0.5rem;">الكمية (INSAN)</label>
+                                    <input type="number" class="form-control" placeholder="0.00">
+                                </div>
+                                
+                                <div style="margin-bottom: 1.5rem;">
+                                    <label style="display: block; margin-bottom: 0.5rem;">المبلغ الإجمالي (USDT)</label>
+                                    <input type="text" class="form-control" placeholder="0.00" readonly>
+                                </div>
+                                
+                                <button class="btn btn-primary" style="width: 100%;">تأكيد الأمر</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div style="background-color: var(--light); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">سعر INSAN</h3>
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--primary);">2.71 USDT</div>
+                            <div style="color: #28a745; margin: 0.5rem 0;">+0.12 (4.63%)</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">24h High</div>
+                                    <div style="font-weight: bold;">2.85 USDT</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">24h Low</div>
+                                    <div style="font-weight: bold;">2.52 USDT</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">24h Volume</div>
+                                    <div style="font-weight: bold;">1.2M USDT</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Market Cap</div>
+                                    <div style="font-weight: bold;">27.1B USDT</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: var(--light); padding: 1.5rem; border-radius: 10px;">
+                            <h3 style="margin-bottom: 1rem;">أوامر مفتوحة</h3>
+                            <div style="max-height: 300px; overflow-y: auto;">
+                                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #ddd;">
+                                    <div>#ORD7812</div>
+                                    <div>شراء</div>
+                                    <div>10.00 INSAN</div>
+                                    <div style="color: #28a745;">مكتمل</div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #ddd;">
+                                    <div>#ORD7811</div>
+                                    <div>بيع</div>
+                                    <div>5.50 INSAN</div>
+                                    <div style="color: #ffc107;">قيد الانتظار</div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #ddd;">
+                                    <div>#ORD7810</div>
+                                    <div>شراء</div>
+                                    <div>2.00 INSAN</div>
+                                    <div style="color: #28a745;">مكتمل</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- نافذة الإشعارات -->
+    <div class="modal" id="notifications-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>الإشعارات</h2>
+            <div class="notification-list">
+                <div class="notification-item unread">
+                    <div class="notification-icon">
+                        <i class="fas fa-coins" style="color: var(--accent);"></i>
+                    </div>
+                    <div class="notification-content">
+                        <p>تم اكتمال عملية التعدين الخاصة بك! لقد ربحت 0.0054 INSAN</p>
+                        <small>منذ ساعتين</small>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon">
+                        <i class="fas fa-user-plus" style="color: var(--primary);"></i>
+                    </div>
+                    <div class="notification-content">
+                        <p>قام محمد بقبول دعوتك! لقد ربحت 0.50 INSAN كمكافأة إحالة</p>
+                        <small>منذ يوم واحد</small>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon">
+                        <i class="fas fa-exclamation-triangle" style="color: #ffc107;"></i>
+                    </div>
+                    <div class="notification-content">
+                        <p>تحذير: تم تسجيل دخول من جهاز جديد في حسابك</p>
+                        <small>منذ 3 أيام</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- التذييل -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">عن المنصة</a>
+            <a href="#">الأسئلة الشائعة</a>
+            <a href="#">الشروط والأحكام</a>
+            <a href="#">سياسة الخصوصية</a>
+            <a href="#">اتصل بنا</a>
+        </div>
+        
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy;Salam Insan 2023 سلام إنسان جميع الحقوق محفوظة</p>
+            <p>شركة إنسان للعلوم وتوطين التقنية قطر شركة إنسان التقنية مصر المهندس إسلام يحيى بن الحسن تم تطوير التطبيق والموقع الإلكتروني باستخدام أحدث تقنيات البلوكشين</p>
+        </div>
+    </footer>
+
+    <script>
+        // تفعيل الرسوم البيانية
+        document.addEventListener('DOMContentLoaded', function() {
+            // مخطط سعر العملة
+            const tokenCtx = document.getElementById('tokenChart').getContext('2d');
+            const tokenChart = new Chart(tokenCtx, {
+                type: 'line',
+                data: {
+                    labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+                    datasets: [{
+                        label: 'سعر INSAN (USD)',
+                        data: [1.20, 1.35, 1.80, 2.10, 2.45, 2.71],
+                        borderColor: '#6a0dad',
+                        backgroundColor: 'rgba(106, 13, 173, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            rtl: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+            
+            // مخطط النشاط
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            const activityChart = new Chart(activityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
+                    datasets: [{
+                        label: 'نشاط التعدين (INSAN)',
+                        data: [0.004, 0.005, 0.003, 0.006, 0.007, 0.005, 0.004, 0.008, 0.009, 0.007, 0.010, 0.012, 0.011, 0.009, 0.008],
+                        backgroundColor: 'rgba(106, 13, 173, 0.7)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // مخطط السوق
+            const marketCtx = document.getElementById('marketChart').getContext('2d');
+            const marketChart = new Chart(marketCtx, {
+                type: 'candlestick',
+                data: {
+                    labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'],
+                    datasets: [{
+                        label: 'INSAN/USDT',
+                        data: [
+                            {o: 2.68, h: 2.72, l: 2.65, c: 2.70},
+                            {o: 2.70, h: 2.75, l: 2.68, c: 2.73},
+                            {o: 2.73, h: 2.74, l: 2.70, c: 2.72},
+                            {o: 2.72, h: 2.73, l: 2.68, c: 2.70},
+                            {o: 2.70, h: 2.72, l: 2.65, c: 2.68},
+                            {o: 2.68, h: 2.71, l: 2.66, c: 2.70},
+                            {o: 2.70, h: 2.73, l: 2.69, c: 2.71}
+                        ],
+                        color: {
+                            up: '#28a745',
+                            down: '#dc3545',
+                            unchanged: '#999',
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // نظام التعدين
+            let miningInterval;
+            const startMiningBtn = document.getElementById('start-mining');
+            const stopMiningBtn = document.getElementById('stop-mining');
+            const miningProgress = document.getElementById('mining-progress');
+            const miningSpeed = document.getElementById('mining-speed');
+            const minedCoins = document.getElementById('mined-coins');
+            const minedValue = document.getElementById('mined-value');
+            
+            let progress = 0;
+            let coins = 0;
+            
+            startMiningBtn.addEventListener('click', function() {
+                startMiningBtn.style.display = 'none';
+                stopMiningBtn.style.display = 'inline-block';
+                
+                miningInterval = setInterval(function() {
+                    progress += Math.random() * 5;
+                    if (progress >= 100) {
+                        progress = 0;
+                        coins += 0.00000001;
+                        minedCoins.textContent = coins.toFixed(8) + ' INSAN';
+                        minedValue.textContent = (coins * 2.71).toFixed(8) + '$';
+                    }
+                    
+                    miningProgress.style.width = progress + '%';
+                    miningSpeed.textContent = 'سرعة التعدين: ' + Math.floor(Math.random() * 100 + 50) + ' H/s';
+                }, 100);
+            });
+            
+            stopMiningBtn.addEventListener('click', function() {
+                startMiningBtn.style.display = 'inline-block';
+                stopMiningBtn.style.display = 'none';
+                clearInterval(miningInterval);
+                miningSpeed.textContent = 'سرعة التعدين: 0 H/s';
+            });
+            
+            // نظام المحفظة
+            const connectWalletBtn = document.getElementById('connect-wallet');
+            const walletDetails = document.getElementById('wallet-details');
+            const walletAddress = document.getElementById('wallet-address');
+            
+            connectWalletBtn.addEventListener('click', async function() {
+                if (typeof window.ethereum !== 'undefined') {
+                    try {
+                        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        walletAddress.textContent = accounts[0];
+                        connectWalletBtn.style.display = 'none';
+                        walletDetails.style.display = 'block';
+                        
+                        // هنا يمكنك إضافة كود لجلب رصيد INSAN من العقد الذكي
+                        document.getElementById('insan-balance').textContent = '12.45 INSAN';
+                        document.getElementById('balance-value').textContent = '33.62$';
+                    } catch (error) {
+                        console.error(error);
+                    }
+                } else {
+                    alert('يرجى تثبيت MetaMask أو أي محفظة ويب3 أخرى');
+                }
+            });
+            
+            // نظام التحويل
+            document.getElementById('transfer-coins').addEventListener('click', function() {
+                if (coins > 0) {
+                    alert(`تم تحويل ${coins.toFixed(8)} INSAN إلى محفظتك!`);
+                    coins = 0;
+                    minedCoins.textContent = '0 INSAN';
+                    minedValue.textContent = '0$';
+                } else {
+                    alert('لا يوجد عملات معدنة للتحويل');
+                }
+            });
+            
+            // نظام التبويبات
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // إزالة النشاط من جميع الأزرار
+                    tabBtns.forEach(btn => btn.classList.remove('active'));
+                    
+                    // إخفاء جميع المحتويات
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // إضافة النشاط للزر المحدد وإظهار المحتوى المناسب
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // إرسال رمز التحقق
+            document.getElementById('send-otp').addEventListener('click', function() {
+                alert('تم إرسال رمز التحقق إلى جوالك');
+            });
+            
+            // نظام لوحة التحكم
+            const dashboardLink = document.getElementById('dashboard-link');
+            const dashboardSections = document.querySelectorAll('.dashboard');
+            const mainSections = document.querySelectorAll('section:not(.dashboard)');
+            
+            dashboardLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // إخفاء الأقسام الرئيسية
+                mainSections.forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // إظهار لوحة التحكم
+                dashboardSections[0].style.display = 'block';
+                
+                // تحديث عنوان URL
+                window.location.hash = 'dashboard';
+            });
+            
+            // نظام التنقل بين أقسام لوحة التحكم
+            window.addEventListener('hashchange', function() {
+                const hash = window.location.hash;
+                
+                if (hash.startsWith('#dashboard') || hash === '') {
+                    dashboardSections.forEach(section => {
+                        section.style.display = section.id === 'dashboard' ? 'block' : 'none';
+                    });
+                } else if (hash.startsWith('#')) {
+                    const targetSection = document.querySelector(hash);
+                    if (targetSection && targetSection.classList.contains('dashboard')) {
+                        dashboardSections.forEach(section => {
+                            section.style.display = section.id === hash.substring(1) ? 'block' : 'none';
+                        });
+                    }
+                }
+            });
+            
+            // فتح نافذة الإشعارات
+            document.querySelectorAll('.notifications').forEach(notification => {
+                notification.addEventListener('click', function() {
+                    document.getElementById('notifications-modal').style.display = 'flex';
+                });
+            });
+            
+            // إغلاق نافذة الإشعارات
+            document.querySelector('.close-modal').addEventListener('click', function() {
+                document.getElementById('notifications-modal').style.display = 'none';
+            });
+            
+            // إغلاق النافذة عند النقر خارجها
+            window.addEventListener('click', function(e) {
+                if (e.target === document.getElementById('notifications-modal')) {
+                    document.getElementById('notifications-modal').style.display = 'none';
+                }
+            });
+            
+            // نسخ رابط الإحالة
+            window.copyReferralLink = function() {
+                const referralInput = document.getElementById('referral-link');
+                referralInput.select();
+                document.execCommand('copy');
+                alert('تم نسخ رابط الإحالة!');
+            };
+            
+            // تسجيل الدخول
+            document.getElementById('email-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // هنا يمكنك إضافة كود التحقق من صحة البيانات
+                if (email && password) {
+                    alert('تم تسجيل الدخول بنجاح! سيتم توجيهك إلى لوحة التحكم.');
+                    
+                    // إخفاء الأقسام الرئيسية
+                    mainSections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // إظهار لوحة التحكم
+                    dashboardSections[0].style.display = 'block';
+                    
+                    // تحديث عنوان URL
+                    window.location.hash = 'dashboard';
+                } else {
+                    alert('يرجى ملء جميع الحقول');
+                }
+            });
+            
+            // تسجيل الدخول برقم الجوال
+            document.getElementById('phone-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const phone = document.getElementById('phone').value;
+                const otp = document.getElementById('otp').value;
+                
+                if (phone && otp) {
+                    alert('تم تسجيل الدخول بنجاح! سيتم توجيهك إلى لوحة التحكم.');
+                    
+                    // إخفاء الأقسام الرئيسية
+                    mainSections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // إظهار لوحة التحكم
+                    dashboardSections[0].style.display = 'block';
+                    
+                    // تحديث عنوان URL
+                    window.location.hash = 'dashboard';
+                } else {
+                    alert('يرجى ملء جميع الحقول');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
